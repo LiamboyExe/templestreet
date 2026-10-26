@@ -1,0 +1,33 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('nfc_cards', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('member_id')->unique()->constrained()->cascadeOnDelete();
+            $table->string('card_uid', 40);
+            $table->string('profile_url');
+            $table->string('card_status', 20)->default('Active');
+            $table->date('issued_date');
+            $table->text('notes')->nullable();
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('nfc_cards');
+    }
+};
